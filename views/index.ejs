@@ -6,10 +6,13 @@
   </head>
   <body>
     <% include header.ejs %>
-    <div class="taskContainer left">
+    <div class="taskContainer left right bottom">
         <% for(var i = 0; i < taskList.length; i++) { %>
-          <h2><%= taskList[i].desc %></h2>
-          <h3><%= taskList[i].reward %></h3>
+          <div class="task left right">
+            <h2 class="top"><%= taskList[i].desc %></h2>
+            <h3 class="">reward: <%= taskList[i].reward %></h3>
+            <button class="check"></button>
+          </div>
         <% } %>
     </div>
     <% include footer.ejs %>

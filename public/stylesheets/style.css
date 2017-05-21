@@ -9,7 +9,8 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #eee;
+  text-decoration: none;
 }
 
 .fixed {
@@ -45,6 +46,33 @@ a {
   padding-right: 20px;
 }
 
+.top {
+  padding-top: 20px;
+}
+
+.bottom {
+  padding-bottom: 20px;
+}
+
 .center {
   text-align: center;
+}
+
+.task {
+  width: 100%;
+  border-radius: 20px;
+  background: #ddd;
+}
+
+.check {
+  width: 40px;
+  height: 40px;
+  background: #eee;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+}
+
+.check:focus {
+  outline: none;
 }
