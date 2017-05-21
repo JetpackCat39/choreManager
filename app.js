@@ -4,67 +4,47 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+// var mongoose = require('mongoose');
+// mongoose.Promise = global.Promise;
 var index = require('./routes/index');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+var login = require('./routes/login');
 var app = express();
 var tasks = [{"desc": "one", "reward": "oneRew"}, {"desc": "two", "reward": "twoRew"}, {"desc": "three", "reward": "threeRew"}];
 
-app.get('/login', function(req, res) {
-    res.sendfile('views/login.html');
-});
+// mongoose.connect('ds149201.mlab.com:49201/taskmaster');
 
 app.set('tasks', tasks);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-mongoose.connect('mongodb://admin:password@ds149201.m-lab.com:49201/taskmaster');
 
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+var session = require('express-session');
+session.loggedIn = false;
+// function logIn() {
+//     if(session.loggedIn)
+//         session.loggedIn = false;
+//     else
+//         session.loggedIn = true;
+// }
+app.set('sess', session);
+console.log(session.loggedIn);
+if(session.loggedIn === true) {
+    app.use('/', index);
+} else {
+    app.use('/', login);
+}
+app.use('/login', login);
 
-app.use('/', index);
-
-//defining login handler routes
-app.post('/login',
-    passport.authenticate('local', {
-        successRedirect: '/loginSuccess',
-        failureRedirect: '/loginFailure'
-    })
-);
-
-passport.serializeUser(function(user, done) {
-    done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-    done(null, user);
-});
-
-//passport initializing
-passport.use(new LocalStrategy(function(username, password, done) {
-    process.nextTick(function() {
-        // Auth Check Logic
-    });
-}));
-
-app.get('/loginFailure', function(req, res, next) {
-    res.send('Failed to authenticate');
-});
-
-app.get('/loginSuccess', function(req, res, next) {
-    res.send('Successfully authenticated');
-});
+// mongoose.connect('mongodb://admin:password@ds149201.m-lab.com:49201/taskmaster');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
