@@ -9,11 +9,10 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
-var cool = "hi";
 
-// function returnCool() {
-//     return "cool";
-// }
+var tasks = [{"desc": "one", "reward": "oneRew"}, {"desc": "two", "reward": "twoRew"}, {"desc": "three", "reward": "threeRew"}];
+
+app.set('tasks', tasks);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -6,8 +6,12 @@
   </head>
   <body>
     <% include header.ejs %>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <div class="taskContainer left">
+        <% for(var i = 0; i < taskList.length; i++) { %>
+          <h2><%= taskList[i].desc %></h2>
+          <h3><%= taskList[i].reward %></h3>
+        <% } %>
+    </div>
     <% include footer.ejs %>
   </body>
 </html>
